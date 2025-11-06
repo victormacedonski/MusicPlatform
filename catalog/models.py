@@ -6,3 +6,29 @@ class Artist(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Артист"
+        verbose_name_plural = "Артисты"
+
+class Release(models.Model):
+    TYPE_CHOICES = [
+        ('album', 'Альбом'),
+        ('ep', 'EP'),
+        ('single', 'Сингл')
+    ]
+
+    title = models.CharField(max_length=200, verbose_name="Назаниие")
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE,related_name='releases')
+    release_type = models.CharField(max_length=10, choices= TYPE_CHOICES,default='album', verbose_name="Тип")
+    cover = models.ImageField(upload_to='covers/', blank=True, null=True, verbose_name="Обложка")
+    release_date = models.DateField(verbose_name="Дата релиза")
+    description = models.TextField(blank=True,verbose_name="Описание")
+
+    def __str__(self):
+        return f"{self.artist.name} - {self.title}"
+
+    class Meta:
+        verbose_name = ""
+        verbose_name_plural = ""
+        ordering = ['-release_date']
