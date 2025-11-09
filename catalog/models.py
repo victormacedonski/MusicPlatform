@@ -32,3 +32,17 @@ class Release(models.Model):
         verbose_name = "Релиз"
         verbose_name_plural = "Релизы"
         ordering = ['-release_date']
+
+class Track (models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название")
+    release = models.ForeignKey(Release, on_delete=models.CASCADE,related_name='tracks')
+    audio_file = models.FileField(upload_to='tracks/',verbose_name="Аудиофаил")
+    track_number = models.PositiveSmallIntegerField(default=1, verbose_name="Номер трека")
+
+    def __str__(self):
+        return f"{self.track_number}. {self.title}"
+
+    class Meta:
+        verbose_name = "Трек"
+        verbose_name_plural = "Треки"
+        ordering = ['track_number']
