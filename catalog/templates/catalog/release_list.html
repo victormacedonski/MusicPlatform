@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Релизы — MyBandcamp</title>
+</head>
+<body>
+    <h1>Все релизы</h1>
+    <ul>
+    {% for release in releases %}
+        <li>
+            <a href="{% url 'catalog:release_detail' release.pk %}">
+                {{ release.artist.name }} – {{ release.title }} ({{ release.release_date|date:"Y" }})
+            </a>
+            {% if release.cover %}
+                <img src="{{ release.cover.url }}" alt="Обложка" width="50">
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>Пока нет релизов.</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
